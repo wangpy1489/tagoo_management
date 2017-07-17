@@ -1,0 +1,102 @@
+<div class="row">
+    <div class="col-lg-10 col-md-offset-1">
+        <h3 class="page-header">{{Caption}}</h3>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+    <div class="col-lg-10 col-sm-12 col-md-offset-1" id="line-chart" ng-controller="ChartCtrl">
+        <div class="panel panel-default">
+            <div class="panel-heading text-center">
+                <form class="form-inline" name="queryByDateForm">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary" ng-class="{'btn-outline': daysSelected != 7}" ng-click="query(6)">&nbsp7天&nbsp</button>
+                        <button type="button" class="btn btn-primary" ng-class="{'btn-outline': daysSelected != 14}" ng-click="query(13)">14天</button>
+                        <button type="button" class="btn btn-primary" ng-class="{'btn-outline': daysSelected != 30}" ng-click="query(29)">30天</button>
+                    </div>
+                    <div class="form-group">
+                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    </div>
+                    <div class="form-group">
+                        <div class='input-group' id="startDate" style="width: 150px;">
+                            <input type='text' class="form-control" style="height:35px;" id="start"
+                                   ng-model="myStart"  ng-required="true" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        ——
+                    </div>
+                    <div class="form-group">
+                        <div class='input-group' id="endDate" style="width: 150px;">
+                            <input type='text' class="form-control" style="height:35px;" id="end"
+                                   ng-model="myEnd"  ng-required="true"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-outline btn-primary" ng-click="customQuery()" >
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-body">
+                <canvas id="line" class="chart chart-line chart-xl" data="line.data" labels="line.labels" legend="true"
+                click="line.onClick" series="line.series"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <div class="row">
+    <div class="col-lg-6 col-sm-12" id="doughnut-chart" ng-controller="ChartCtrl">
+        <div class="panel panel-default">
+            <div class="panel-heading">Doughnut Chart</div>
+            <div class="panel-body">
+            <canvas id="doughnut" class="chart chart-doughnut chart-xs" data="donut.data" labels="donut.labels" legend="false"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-12" id="radar-chart" ng-controller="ChartCtrl">
+        <div class="panel panel-default">
+            <div class="panel-heading">Radar Chart</div>
+            <div class="panel-body">
+                <canvas id="area" class="chart chart-radar" data="radar.data" labels="radar.labels" click="onClick"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-12" id="pie-chart" ng-controller="ChartCtrl">
+        <div class="panel panel-default">
+            <div class="panel-heading">Pie Chart</div>
+            <div class="panel-body">
+                <canvas id="pie" class="chart chart-pie chart-xs" data="pie.data" labels="pie.labels"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-12" id="polar area-chart" ng-controller="ChartCtrl">
+      <div class="panel panel-default">
+        <div class="panel-heading">Polar Area Chart</div>
+        <div class="panel-body">
+          <canvas id="polar" class="chart chart-polar-area" data="polar.data" labels="polar.labels"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-sm-12" id="base-chart" ng-controller="ChartCtrl">
+        <div class="panel panel-default">
+            <div class="panel-heading">Dynamic Chart</div>
+            <div class="panel-body">
+            <canvas id="base" class="chart chart-base" chart-type="dynamic.type" data="dynamic.data" labels="dynamic.labels" legend="true"></canvas>
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary pull-right" ng-click="dynamic.toggle()">Toggle</button>
+    </div>
+</div> -->
+
+

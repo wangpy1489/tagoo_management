@@ -1,0 +1,33 @@
+<div class="container" ng-controller="LoginCtrl">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+
+            <div class="login-title">
+                <h2>最美食合作伙伴管理平台</h2>
+            </div>
+            <hr>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form role="form" name="loginForm">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="control-label login-label">用户名:</label>
+                                <input class="form-control" ng-model="account" id="account" name="account"
+                                       type="text" autofocus placeholder="输入用户名" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label login-label">密码:</label>
+                                <input class="form-control" ng-model="password" name="password"
+                                       id="password" type="password" placeholder="输入密码" required>
+                            </div>
+                            <br>
+                            <!-- Change this to a button or input when using this as a form -->
+                            <button id="loginBtn" ng-disabled="loginForm.account.$invalid || loginForm.password.$invalid"
+                                    class="btn btn-lg btn-success btn-block" ng-click="login()">登录</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

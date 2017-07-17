@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <form role="form" name="loginForm" class="modal-form">
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label">权限码:</label>
+                    <div class="controls">
+                        <input class="form-control" ng-model="rowRight.sceneId" type="text" autofocus required ng-disabled="edit">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">权限名:</label>
+                    <div class="controls">
+                        <input class="form-control" ng-model="rowRight.rightName" type="text" required >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">身份:</label>
+                    <div class="controls">
+                        <select class="form-control" ng-model="rowRight.admin" >
+                            <option ng-value=false ng-selected="rowRight.admin == false || rowRight.admin == 'false'">非管理员</option>
+                            <option ng-value=true ng-selected="rowRight.admin == true || rowRight.admin == 'true'">管理员</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">描述:</label>
+                    <div class="controls">
+                        <input class="form-control" ng-model="rowRight.description" type="text" required >
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+    </div>
+</div>
