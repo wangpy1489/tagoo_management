@@ -112,11 +112,11 @@ angular.module('sbAdminApp')
         return factory;
 
     }])
-    .controller('AdminCtrl', ['$scope', 'AdminFactory', 'createDialog', '$cookies', '$state', function($scope, AdminFactory, createDialog, $cookies, $state) {
-        if($cookies.get('currentUser') == undefined || $cookies.get('authority') != 'admin' ||
-            $cookies.get('authority') == undefined){
-            $state.go('login');
-        }
+    .controller('AdminCtrl', function($scope, AdminFactory, createDialog, $state) {
+        //if($cookies.get('currentUser') == undefined || $cookies.get('authority') != 'admin' ||
+        //    $cookies.get('authority') == undefined){
+        //    $state.go('login');
+        //}
         //manage users
         $scope.itemsByPage = 8;
         AdminFactory.getAllPartner()
@@ -290,7 +290,7 @@ angular.module('sbAdminApp')
             });
         }
 
-    }])
+    })
 
     .controller('ModifyCtrl', ['$scope', 'AdminFactory', 'row', 'edit',
         function($scope, AdminFactory, row, edit) {

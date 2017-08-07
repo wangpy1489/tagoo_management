@@ -14,10 +14,10 @@ angular
         'ui.bootstrap',
         'angular-loading-bar'
     ])
-    .constant("BaseUrl", "http://202.120.40.175:")
-    .constant("partnerPort", "21115")
-    .constant("QueryUrl", "http://115.159.161.235:")
-    .constant("queryPort","8016")
+    .constant("BaseUrl", "http://202.120.40.177:")
+	.constant("UserPort", "22201")
+	.constant("Port", "22202")
+	.constant("partnerPort", "22333")
     .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
 
     $ocLazyLoadProvider.config({
@@ -25,7 +25,7 @@ angular
         events:true
     });
 
-    $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/manage/user');
 
     $stateProvider
         .state('login',{
@@ -41,8 +41,8 @@ angular
                         ]
                     }),
                     $ocLazyLoad.load({
-                        name:'ngCookies',
-                        files:['bower_components/angular-cookies/angular-cookies.min.js']
+	                    name:'ngCookies',
+	                    files:['bower_components/angular-cookies/angular-cookies.js']
                     });
                 }
             }
@@ -63,8 +63,14 @@ angular
                         ]
                     }),
                     $ocLazyLoad.load({
+	                    name:'ngModal',
+	                    files:[
+		                    'bower_components/ngModal/dist/ng-modal.js'
+	                    ]
+                    }),
+                    $ocLazyLoad.load({
                         name:'ngCookies',
-                        files:['bower_components/angular-cookies/angular-cookies.min.js']
+                        files:['bower_components/angular-cookies/angular-cookies.js']
                     });
                 }
             }
@@ -94,6 +100,57 @@ angular
                 }
             }
         })
+
+	    .state('manage.user',{
+		    templateUrl:'views/manageUser.html',
+		    url:'/user',
+		    controller:'ManageUserCtrl',
+		    resolve: {
+			    loadMyFiles:function($ocLazyLoad) {
+				    return $ocLazyLoad.load({
+					    name:'sbAdminApp',
+					    files:[
+						    'scripts/controllers/manageUserController.js'
+					    ]
+				    }),
+				    $ocLazyLoad.load({
+					    name:'smart-table',
+					    files:[
+						    'bower_components/angular-smart-table/dist/smart-table.min.js'
+					    ]
+				    });
+			    }
+		    }
+	    })
+
+	    .state('manage.service',{
+		    templateUrl:'views/manageService.html',
+		    url:'/service',
+		    controller:'ManageServiceCtrl',
+		    resolve: {
+			    loadMyFiles:function($ocLazyLoad) {
+				    return $ocLazyLoad.load({
+					    name:'sbAdminApp',
+					    files:[
+						    'scripts/controllers/manageServiceController.js'
+					    ]
+				    }),
+				    $ocLazyLoad.load({
+					    name:'smart-table',
+					    files:[
+						    'bower_components/angular-smart-table/dist/smart-table.min.js'
+					    ]
+				    }),
+				    $ocLazyLoad.load({
+					    name:'fundoo.services',
+					    files:[
+						    'bower_components/angularjs-modal-service/src/createDialog.js'
+					    ]
+				    });
+			    }
+		    }
+	    })
+
         .state('manage.admin',{
             templateUrl:'views/admin.html',
             url:'/admin',
@@ -121,6 +178,8 @@ angular
                 }
             }
         })
+
+
 
         .state('manage.changePassword',{
             templateUrl:'views/changePassword.html',

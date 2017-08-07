@@ -15,9 +15,6 @@ angular.module('sbAdminApp')
       replace: true,
       controller:['$scope', '$state', '$cookies', function($scope, $state, $cookies){
         $scope.whetherAdmin = true;
-        if($cookies.get('authority') != "admin"){
-          $scope.whetherAdmin = false;
-        }
         $scope.collapseVar = [0,1,1,1];
 
         $scope.check = function(x){

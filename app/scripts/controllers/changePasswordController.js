@@ -21,26 +21,25 @@ angular.module('sbAdminApp')
         return factory;
 
     }])
-    .controller('changePasswordCtrl', ['$scope','$cookies','$rootScope', 'changePasswordFactory', '$state',
-        function($scope, $cookies, $rootScope, changePasswordFactory, $state) {
-            var currentUserStr = $cookies.get("currentUser");
-            console.log(currentUserStr);
-            var currentUser = JSON.parse(currentUserStr);
-            $scope.changePassword = function(){
-                changePasswordFactory.changePassword(currentUser.account, $scope.origin_password, $scope.new_password)
-                    .success(function (data){
-                        if(data.status == false){
-                            alert(data.errorMes);
-                            return;
-                        }
-                        $cookies.remove("currentUser");
-                        $cookies.remove("authority");
-                        alert("修改成功,请重新登录!");
-                        $state.go('login');
-                    })
-                    .error(function(){
-                        alert("修改失败,请检查网络!");
-                    });
-            }
+    .controller('changePasswordCtrl', function($scope, $rootScope, changePasswordFactory, $state) {
+            //var currentUserStr = $cookies.get("currentUser");
+            //console.log(currentUserStr);
+            //var currentUser = JSON.parse(currentUserStr);
+            //$scope.changePassword = function(){
+            //    changePasswordFactory.changePassword(currentUser.account, $scope.origin_password, $scope.new_password)
+            //        .success(function (data){
+            //            if(data.status == false){
+            //                alert(data.errorMes);
+            //                return;
+            //            }
+            //            $cookies.remove("currentUser");
+            //            $cookies.remove("authority");
+            //            alert("修改成功,请重新登录!");
+            //            $state.go('login');
+            //        })
+            //        .error(function(){
+            //            alert("修改失败,请检查网络!");
+            //        });
+            //}
         }
-    ]);
+    );

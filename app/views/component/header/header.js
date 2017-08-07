@@ -13,9 +13,9 @@ angular.module('sbAdminApp')
 			restrict: 'E',
 			replace: true,
 			controller:['$scope', '$cookies', function($scope, $cookies){
-				var currentUserStr = $cookies.get('currentUser');
-				var currentUser = JSON.parse(currentUserStr);
-				$scope.username = currentUser.name;
+				//var currentUserStr = $cookies.get('currentUser');
+				//var currentUser = JSON.parse(currentUserStr);
+				//$scope.username = currentUser.name;
 			}]
     	}
 	});

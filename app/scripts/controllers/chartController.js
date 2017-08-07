@@ -7,14 +7,21 @@
  * Controller of the sbAdminApp
  */
 angular.module('sbAdminApp')
-	.factory("ChartFactory",['$http', "QueryUrl", 'queryPort',function($http, QueryUrl, queryPort) {
+	.factory("ChartFactory",['$http', "BaseUrl", 'Port',function($http, BaseUrl, Port) {
 		var factory = {};
-		factory.queryNumber = function (sceneId, startDate, endDate, type) {
-			if(type == 0) {
+		factory.queryStatistics = function (startDate, endDate, type) {
+			if(type == 0) { //query registered users
 				return $http({
 					method: "GET",
-					url: QueryUrl + queryPort + "/api/v1/" + sceneId +
-					"/scanUser/" + startDate + "/" + endDate,
+					url: BaseUrl + Port + "/user/regcount?start=" + startDate + "&end=" + endDate,
+					headers: {'Content-Type': 'application/json;charset=UTF-8'},
+					crossDomain: true
+				});
+			}
+			else if(type == 1){
+				return $http({
+					method: "GET",
+					url: BaseUrl + Port + "/service/regcount?start=" + startDate + "&end=" + endDate,
 					headers: {'Content-Type': 'application/json;charset=UTF-8'},
 					crossDomain: true
 				});
@@ -22,12 +29,11 @@ angular.module('sbAdminApp')
 		};
 		return factory;
 	}])
-	.controller('ChartCtrl', ['ChartFactory','$scope', '$timeout', '$rootScope', '$cookies', '$state', '$stateParams', function (ChartFactory, $scope, $timeout, $rootScope, $cookies, $state, $stateParams) {
+	.controller('ChartCtrl', function (ChartFactory, $scope, $timeout, $rootScope, $state, $stateParams) {
 		//alert(document.getElementById("hehe").innerHTML);
-		if($cookies.get('currentUser') == undefined || $cookies.get('authority') == undefined){
-			$state.go('login');
-		};
-		console.log($stateParams.dataType);
+		//if($cookies.get('currentUser') == undefined || $cookies.get('authority') == undefined){
+		//	$state.go('login');
+		//};
 		//alert($stateParams.category);
 
 		function dateSubstract(startDate, endDate){
@@ -71,6 +77,9 @@ angular.module('sbAdminApp')
 
 		//将没有人数的日期补为0
 		function getChartData(start, end, data){
+			var string2Date = function(str){
+				return new Date(str.substring(0, 4) + "-" + str.substring(4, 6) + "-" + str.substring(6))
+			}
 			var startDate = new Date(start);
 			var endDate = new Date(end);
 			var result = {};
@@ -84,7 +93,7 @@ angular.module('sbAdminApp')
 			result.count.push(0);
 			startDate = new Date(start);
 			for(var i = 0; i < data.length; i++){
-				result.count[dateSubstract(startDate, new Date(data[i].date))] = data[i].count;
+				result.count[dateSubstract(startDate, string2Date(data[i].regDate))] = data[i].count;
 			}
 			return result;
 		}
@@ -103,7 +112,7 @@ angular.module('sbAdminApp')
 			locale: 'zh-cn'
 		});
 
-		var captions = ["扫码人数", "注册人数", "付费人数", "付费金额"];
+		var captions = ["日注册用户数", "日发布服务数"];
 		$rootScope.Caption = captions[$stateParams.dataType];
 
 
@@ -115,12 +124,9 @@ angular.module('sbAdminApp')
 			$scope.myStart = $scope.startDate;
 			$scope.myEnd = $scope.endDate;
 			$scope.daysSelected = days + 1;
-			var currentUser = $cookies.getObject("currentUser");
-			ChartFactory.queryNumber(currentUser.sceneId, $scope.startDate, $scope.endDate, $stateParams.dataType)
+			ChartFactory.queryStatistics($scope.startDate.replace(/-/g, ""), $scope.endDate.replace(/-/g, ""), $stateParams.dataType)
 				.success(function(data){
-					console.log(data);
-					var result = getChartData($scope.startDate, $scope.endDate, data.count);
-					console.log(result);
+					var result = getChartData($scope.startDate, $scope.endDate, data);
 					$scope.line = {
 						labels: result.labels,
 						series: [captions[$stateParams.dataType]],
@@ -140,17 +146,14 @@ angular.module('sbAdminApp')
 		$scope.customQuery = function(){
 			$scope.startDate =  $("#start").val();
 			$scope.endDate = $("#end").val();
-			var currentUser = $cookies.getObject("currentUser");
 			if(!compareTime($scope.startDate, $scope.endDate) || $scope.startDate == '' || $scope.endDate == ''){
 				alert("请输入正确的起止日期");
 				return;
 			}
 			else{
-				ChartFactory.queryNumber(currentUser.sceneId, $scope.startDate, $scope.endDate, $stateParams.dataType)
+				ChartFactory.queryStatistics($scope.startDate.replace(/-/g, ""), $scope.endDate.replace(/-/g, ""), $stateParams.dataType)
 					.success(function(data){
-						console.log(data);
-						var result = getChartData($scope.startDate, $scope.endDate, data.count);
-						console.log(result);
+						var result = getChartData($scope.startDate, $scope.endDate, data);
 						$scope.line = {
 							labels: result.labels,
 							series: [captions[$stateParams.dataType]],
@@ -163,51 +166,4 @@ angular.module('sbAdminApp')
 					})
 			}
 		}
-
-		//$scope.bar = {
-		//	labels: ['2006', '2007', '2008', '2009', '2010', '2011', '2012'],
-		//	series: ['Series A', 'Series B'],
-        //
-		//	data: [
-		//	   [65, 59, 80, 81, 56, 55, 40],
-		//	   [28, 48, 40, 19, 86, 27, 90]
-		//	]
-        //
-		//};
-        //
-		//$scope.donut = {
-		//	labels: ["Download Sales", "In-Store Sales", "Mail-Order Sales"],
-		//	data: [300, 500, 100]
-		//};
-        //
-		//$scope.radar = {
-		//	labels:["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Cycling", "Running"],
-        //
-		//	data:[
-		//		[65, 59, 90, 81, 56, 55, 40],
-		//		[28, 48, 40, 19, 96, 27, 100]
-		//	]
-		//};
-        //
-		//$scope.pie = {
-		//	labels : ["Download Sales", "In-Store Sales", "Mail-Order Sales"],
-		//	data : [300, 500, 100]
-		//};
-        //
-		//$scope.polar = {
-		//	labels : ["Download Sales", "In-Store Sales", "Mail-Order Sales", "Tele Sales", "Corporate Sales"],
-		//	data : [300, 500, 100, 40, 120]
-		//};
-        //
-		//$scope.dynamic = {
-		//	labels : ["Download Sales", "In-Store Sales", "Mail-Order Sales", "Tele Sales", "Corporate Sales"],
-		//	data : [300, 500, 100, 40, 120],
-		//	type : 'PolarArea',
-        //
-		//	toggle : function ()
-		//	{
-		//		this.type = this.type === 'PolarArea' ?
-		//		'Pie' : 'PolarArea';
-		//	}
-		//};
-	}]);
+	});
