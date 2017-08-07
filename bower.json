@@ -24,7 +24,8 @@
     "angular-smart-table": "~2.1.6",
     "angularjs-modal-service": "*",
     "angular-cookies": "^1.6.5",
-    "ngModal": "^1.2.2"
+    "ngModal": "^1.2.2",
+    "angular-base64-upload": "^0.1.22"
   },
   "devDependencies": {
     "angular-mocks": "1.2.16",

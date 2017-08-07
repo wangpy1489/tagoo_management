@@ -71,6 +71,10 @@ angular
                     $ocLazyLoad.load({
                         name:'ngCookies',
                         files:['bower_components/angular-cookies/angular-cookies.js']
+                    }),
+                    $ocLazyLoad.load({
+	                    name:'naif.base64',
+	                    files:['bower_components/angular-base64-upload/dist/angular-base64-upload.js']
                     });
                 }
             }

@@ -5,4 +5,5 @@ dist
 .sass-cache
 bower_components/*
 !bower_components/angular-cookies/
+!bower_components/angular-base64-upload/
 .idea

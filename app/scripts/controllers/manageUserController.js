@@ -43,6 +43,15 @@ angular.module('sbAdminApp')
 				crossDomain: true
 			});
 		};
+		factory.uploadPortrait = function(data){
+			return $http({
+				method: 'POST',
+				url: BaseUrl + UserPort + '/user/uploadphoto',
+				data: JSON.stringify(data),
+				crossDomain: true,
+				headers: {'Content-Type': 'application/json;charset=UTF-8'}
+			});
+		};
 		return factory;
 	})
 	.controller('ManageUserCtrl', function($scope,$position,$state,ManageUserFactory,$filter) {
@@ -141,7 +150,7 @@ angular.module('sbAdminApp')
 		}
 
 		$scope.previewPortrait = function(user){
-			$scope.portrait="data:image/jpeg;";
+			$scope.portrait=null;
 			$scope.flag.previewPortrait = true;
 			ManageUserFactory.getPhoto(user.phone)
 				.success(function(data){
@@ -149,9 +158,32 @@ angular.module('sbAdminApp')
 				})
 		}
 
-		$scope.showUploadPortraitModal = function(){
+		$scope.files = {
+			'portrait':{}
+		};
+
+		$scope.showUploadPortraitModal = function(row){
 			$scope.flag.uploadPortrait = true;
-			console.log($scope.uploader)
+			$scope.files.portrait = {};
+			$scope.phoneOfPortrait = row.phone;
+		}
+
+		$scope.uploadPortrait = function(fileObj, phone){
+			var portrait = fileObj.base64;
+			var postData = {
+				'phone': phone,
+				'photoImageValue': portrait
+			};
+			console.log("postData", postData);
+			ManageUserFactory.uploadPortrait(postData)
+				.success(function(data){
+					alert("头像上传成功!");
+					$scope.flag.uploadPortrait = false;
+					getAllUsers();
+				})
+				.error(function(err){
+					alert("头像上传失败!");
+				})
 		}
 
 	});
