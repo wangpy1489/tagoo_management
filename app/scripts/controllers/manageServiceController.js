@@ -85,13 +85,24 @@ angular.module('sbAdminApp')
 			});
 		};
 
+		factory.addService = function(service){
+			return $http({
+				method: 'POST',
+				url: BaseUrl + UserPort + '/service/publish',
+				data: JSON.stringify(service),
+				crossDomain: true,
+				headers: {'Content-Type': 'application/json;charset=UTF-8'}
+			});
+		};
+
 		return factory;
 
 	})
-	.controller('ManageServiceCtrl', function($scope, BaseUrl, Port, UserPort, ManageServiceFactory, createDialog) {
+	.controller('ManageServiceCtrl', function($scope, BaseUrl, Port, UserPort, ManageServiceFactory, $filter) {
 		$scope.dialogShown = {
 			'flag': false,
-			'flag1': false
+			'flag1': false,
+			'service': false
 		}
 		function getAllLabels(){
 			ManageServiceFactory.getBasicLabels()
@@ -221,7 +232,9 @@ angular.module('sbAdminApp')
 		var getAllUsers = function(){
 			ManageServiceFactory.getAllUsers()
 				.success(function(data){
-					$scope.allUsers = data
+					console.log("allUsers",data)
+					$scope.allUsers = data;
+
 				})
 		}
 		getAllUsers();
@@ -232,6 +245,43 @@ angular.module('sbAdminApp')
 					return userList[item].userName;
 				}
 			}
+		};
+		$scope.showAddServiceModal = function(){
+			$scope.newService = {};
+			$scope.newService.publishUser = $scope.allUsers[0];
+			$scope.newService.basicLabel = $scope.labels[0];
+			$scope.newService.serviceLabel = $scope.newService.basicLabel.services[0];
+			$scope.$watch('newService.basicLabel', function(){
+				$scope.newService.serviceLabel = $scope.newService.basicLabel.services[0];
+			});
+			$scope.dialogShown.service = true;
+		};
+
+		$scope.addNewService = function(data) {
+			var service = {
+				'longitude': data.longitude,
+				'latitude': data.latitude,
+				'slogan': data.slogan,
+				'datetime': $filter('date')(new Date(), 'yyyyMMdd'),
+				'publishUserId': data.publishUser.id,
+				'serviceLabelId':data.serviceLabel.id
+
+			};
+			if (service.longitude == undefined || service.longitude == null
+				|| service.latitude == undefined || service.latitude == null
+				|| service.slogan == undefined || service.slogan == "") {
+				alert("请完整填写服务信息!");
+				return;
+			};
+			ManageServiceFactory.addService(service)
+				.success(function(info){
+					alert("新建服务成功!");
+					$scope.dialogShown.service = false;
+					getAllServices();
+				})
+				.error(function(err){
+					alert("新建服务失败");
+				});
 		}
 
 	});

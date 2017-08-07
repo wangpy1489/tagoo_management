@@ -80,7 +80,7 @@
 						<input st-search placeholder="搜索" class="input-sm form-control" type="search"/>
 					</th>
 					<th>
-						<button class="btn btn-success btn-outline" ng-click="createRight()">
+						<button class="btn btn-success btn-outline" ng-click="showAddServiceModal()">
 							新建服务&nbsp<span class="glyphicon glyphicon-plus"></span>
 						</button>
 					</th>
@@ -178,6 +178,61 @@
 					</div>
 					<div class="form-group" style="float: right">
 						<button class="btn btn-success btn-outline ng-binding" ng-click="addServiceLabel(newServiceLabel.basicLabelId, newServiceLabel.type)">提交&nbsp<span class="glyphicon glyphicon-plus"></span></button>
+						<button class="btn btn-primary btn-outline ng-binding" ng-click="dialogShown.flag1 = false">取消&nbsp<span class="glyphicon glyphicon-trash"></span></button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</modal-dialog>
+
+
+<modal-dialog show='dialogShown.service' dialog-title="新建服务">
+	<div>
+		<div class="col-md-10 col-md-offset-1">
+			<form role="form" name="loginForm" class="modal-form">
+				<fieldset>
+					<div class="form-group">
+						<label class="control-label" style="width: 80px">所属用户:</label>
+						<div class="controls" style="margin-left: 95px">
+							<select class="form-control" ng-model="newService.publishUser" ng-options="option as option.userName for option in allUsers track by option.id" >
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label" style="width: 80px">服务标签:</label>
+						<div class="controls" style="margin-left: 95px">
+							<select class="form-control" ng-model="newService.basicLabel" ng-options="option as option.type for option in labels track by option.id" >
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label" style="width: 80px">子标签:</label>
+						<div class="controls" style="margin-left: 95px">
+							<select class="form-control" ng-model="newService.serviceLabel" ng-options="option as option.type for option in newService.basicLabel.services track by option.id" >
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label" style="width: 80px">经度:</label>
+						<div class="controls" style="margin-left: 95px">
+							<input class="form-control" ng-model="newService.longitude" type="number">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label" style="width: 80px">纬度:</label>
+						<div class="controls" style="margin-left: 95px">
+							<input class="form-control" ng-model="newService.latitude" type="number" >
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label" style="width: 80px">广告语:</label>
+						<div class="controls" style="margin-left: 95px">
+							<input class="form-control" ng-model="newService.slogan" type="text" >
+						</div>
+					</div>
+					<div class="form-group" style="float: right">
+						<button class="btn btn-success btn-outline ng-binding" ng-click="addNewService(newService)">提交&nbsp<span class="glyphicon glyphicon-plus"></span></button>
 						<button class="btn btn-primary btn-outline ng-binding" ng-click="dialogShown.flag1 = false">取消&nbsp<span class="glyphicon glyphicon-trash"></span></button>
 					</div>
 				</fieldset>
