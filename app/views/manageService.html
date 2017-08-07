@@ -76,7 +76,7 @@
 			<table st-table="displayedServices"  st-safe-src="rowServices" class="table table-striped table-bordered">
 				<thead>
 				<tr>
-					<th colspan="5">
+					<th colspan="6">
 						<input st-search placeholder="搜索" class="input-sm form-control" type="search"/>
 					</th>
 					<th>
@@ -91,6 +91,7 @@
 					<th>广告语</th>
 					<th>发布人</th>
 					<th>位置</th>
+					<th>图片</th>
 					<!--<th st-sort="description">描述</th>-->
 
 					<th>操作</th>
@@ -110,6 +111,17 @@
 					<td>{{row.slogan}}</td>
 					<td>{{getUserName(row.publishUserId, allUsers)}}</td>
 					<td>{{"经度 " + row.longitude + " , 纬度 " + row.latitude}}</td>
+					<td>
+						<button class="btn btn-success btn-outline" ng-click="showUploadPictureModal(row)">
+							上传&nbsp<span class="fa fa-upload"></span>
+						</button>
+						<button class="btn btn-primary btn-outline" ng-if="row.picture != null" ng-click="previewPicture(row)">
+							预览&nbsp<span class="fa fa-image"></span>
+						</button>
+						<button class="btn btn-primary btn-outline" ng-if="row.picture == null" disabled>
+							&nbsp未上传&nbsp
+						</button>
+					</td>
 					<td>
 						<button class="btn btn-primary btn-outline" ng-click="ll(row)">
 							编辑&nbsp<span class="glyphicon glyphicon-edit"></span>
@@ -237,6 +249,29 @@
 					</div>
 				</fieldset>
 			</form>
+		</div>
+	</div>
+</modal-dialog>
+
+
+<modal-dialog show='dialogShown.previewPicture' dialog-title='预览图片'>
+	<div>
+		<div ng-if="!picture">加载中...</div>
+		<img ng-src="{{picture}}" style="max-width: 100%; max-height: 500px;" ng-if="picture">
+	</div>
+</modal-dialog>
+
+<modal-dialog show='dialogShown.uploadPicture' dialog-title='上传图片'>
+	<input type='file' ng-model='files.portrait' base-sixty-four-input accept="image/*" required>
+	<div ng-if="files.portrait.base64" style="margin-top: 10px">
+		<!--<div style="position: relative; height: 0px; padding-bottom: 60%; width: 100%">-->
+		<!--<div style="position: absolute; left: 0px; height: 100%; width: 100%">-->
+		<img ng-src="{{'data:' + files.portrait.filetype + ';base64,' + files.portrait.base64}}" style="max-width: 100%; max-height: 500px;">
+		<!--</div>-->
+		<!--</div>-->
+		<div class="form-group" style="margin-top: 10px">
+			<button class="btn btn-success btn-outline ng-binding" ng-click="uploadPicture(files.portrait, files.serviceId)">上传&nbsp<span class="fa fa-upload"></span></button>
+			<button class="btn btn-primary btn-outline ng-binding" ng-click="dialogShown.uploadPicture = false">取消&nbsp<span class="glyphicon glyphicon-trash"></span></button>
 		</div>
 	</div>
 </modal-dialog>

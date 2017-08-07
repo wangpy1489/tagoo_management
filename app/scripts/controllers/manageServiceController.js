@@ -95,6 +95,24 @@ angular.module('sbAdminApp')
 			});
 		};
 
+		factory.getPicture = function(id){
+			return $http({
+				method: 'GET',
+				url: BaseUrl + UserPort + '/service/getpicture?id=' + id,
+				crossDomain: true
+			});
+		};
+
+		factory.uploadPicture = function(data){
+			return $http({
+				method: 'POST',
+				url: BaseUrl + UserPort + '/service/uploadpicture',
+				data: data,
+				crossDomain: true,
+				headers: {'Content-Type': 'application/json;charset=UTF-8'}
+			});
+		};
+
 		return factory;
 
 	})
@@ -102,7 +120,9 @@ angular.module('sbAdminApp')
 		$scope.dialogShown = {
 			'flag': false,
 			'flag1': false,
-			'service': false
+			'service': false,
+			'previewPicture': false,
+			'uploadPicture':false
 		}
 		function getAllLabels(){
 			ManageServiceFactory.getBasicLabels()
@@ -282,6 +302,39 @@ angular.module('sbAdminApp')
 				.error(function(err){
 					alert("新建服务失败");
 				});
+		};
+
+		$scope.previewPicture = function(svc){
+			$scope.picture=null;
+			$scope.dialogShown.previewPicture = true;
+			ManageServiceFactory.getPicture(svc.id)
+				.success(function(data){
+					$scope.picture = data;
+				})
+		};
+
+		$scope.showUploadPictureModal = function(row){
+			$scope.files = {
+				'serviceId': row.id
+			}
+			$scope.dialogShown.uploadPicture = true;
+		}
+
+		$scope.uploadPicture = function(image, serviceId){
+			var data = {
+				"id": serviceId,
+				"pictureImageValue": image.base64
+			};
+			console.log("picture",data);
+			ManageServiceFactory.uploadPicture(data)
+				.success(function(info){
+					alert("上传图片成功!");
+					getAllServices();
+					$scope.dialogShown.uploadPicture = false;
+				})
+				.error(function(err){
+					alert("上传图片失败!");
+				})
 		}
 
 	});
