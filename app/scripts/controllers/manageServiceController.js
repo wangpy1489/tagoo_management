@@ -113,6 +113,24 @@ angular.module('sbAdminApp')
 			});
 		};
 
+		factory.deleteService = function(serviceid){
+			return $http({
+				method: 'GET',
+				url: BaseUrl + Port + '/service/remove?serviceid=' + serviceid,
+				crossDomain: true
+			});
+		};
+
+		factory.modifyService = function(service){
+			return $http({
+				method: 'POST',
+				url: BaseUrl + Port + '/service/modify',
+				data: JSON.stringify(service),
+				crossDomain: true,
+				headers: {'Content-Type': 'application/json;charset=UTF-8'}
+			});
+		};
+
 		return factory;
 
 	})
@@ -122,7 +140,8 @@ angular.module('sbAdminApp')
 			'flag1': false,
 			'service': false,
 			'previewPicture': false,
-			'uploadPicture':false
+			'uploadPicture':false,
+			'modifyService': false
 		}
 		function getAllLabels(){
 			ManageServiceFactory.getBasicLabels()
@@ -335,6 +354,53 @@ angular.module('sbAdminApp')
 				.error(function(err){
 					alert("上传图片失败!");
 				})
+		}
+
+		$scope.deleteService = function(row){
+			if(confirm('确定要删除该服务?')){
+				ManageServiceFactory.deleteService(row.id)
+					.success(function(data){
+						if(data.status == 0){
+							alert("删除服务成功!");
+							getAllServices();
+						}
+						else{
+							alert("删除服务失败");
+						}
+					})
+					.error(function(err){
+						alert("删除服务失败");
+					})
+			}
+		}
+
+		$scope.showModifyServiceModal = function(row){
+			$scope.dialogShown.modifyService = true;
+			$scope.modifyService = angular.copy(row);
+		}
+
+		$scope.modifyServiceFunc = function(service){
+			if (service.longitude == undefined || service.longitude == null
+				|| service.latitude == undefined || service.latitude == null
+				|| service.slogan == undefined || service.slogan == "") {
+				alert("请完整填写服务信息!");
+				return;
+			}
+			ManageServiceFactory.modifyService(service)
+				.success(function(data){
+					if(data.status == 0){
+						alert("修改服务信息成功!");
+						getAllServices();
+						$scope.dialogShown.modifyService = false;
+					}
+					else{
+						alert("修改服务信息失败!");
+					}
+				})
+				.error(function(err){
+					alert("修改服务信息失败")
+				})
+
 		}
 
 	});

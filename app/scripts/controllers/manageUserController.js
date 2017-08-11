@@ -77,8 +77,13 @@ angular.module('sbAdminApp')
 			if(confirm('确定要删除"' + user.userName + '"的用户?')) {
 				ManageUserFactory.deleteUser(user.id)
 					.success(function (data) {
-						alert("删除用户成功");
-						getAllUsers();
+						if(data.status == 0) {
+							alert("删除用户成功");
+							getAllUsers();
+						}
+						else{
+							alert("删除用户失败")
+						}
 					})
 					.error(function (err) {
 						alert("删除用户失败");
@@ -138,9 +143,14 @@ angular.module('sbAdminApp')
 			}
 			ManageUserFactory.modifyUser(temp)
 				.success(function(data){
-					alert("修改用户信息成功!");
-					getAllUsers();
-					$scope.flag.userModal = false;
+					if(data.status == 0) {
+						alert("修改用户信息成功!");
+						getAllUsers();
+						$scope.flag.userModal = false;
+					}
+					else{
+						alert("修改用户信息失败");
+					}
 				})
 				.error(function(err){
 					alert("修改用户信息失败");

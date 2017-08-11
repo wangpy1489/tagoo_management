@@ -123,10 +123,10 @@
 						</button>
 					</td>
 					<td>
-						<button class="btn btn-primary btn-outline" ng-click="ll(row)">
+						<button class="btn btn-primary btn-outline" ng-click="showModifyServiceModal(row)">
 							编辑&nbsp<span class="glyphicon glyphicon-edit"></span>
 						</button>
-						<button class="btn btn-danger btn-outline" ng-click="ll(row)">
+						<button class="btn btn-danger btn-outline" ng-click="deleteService(row)">
 							删除&nbsp<span class="glyphicon glyphicon-remove"></span>
 						</button>
 					</td>
@@ -272,6 +272,52 @@
 		<div class="form-group" style="margin-top: 10px">
 			<button class="btn btn-success btn-outline ng-binding" ng-click="uploadPicture(files.portrait, files.serviceId)">上传&nbsp<span class="fa fa-upload"></span></button>
 			<button class="btn btn-primary btn-outline ng-binding" ng-click="dialogShown.uploadPicture = false">取消&nbsp<span class="glyphicon glyphicon-trash"></span></button>
+		</div>
+	</div>
+</modal-dialog>
+
+
+<modal-dialog show='dialogShown.modifyService' dialog-title="修改服务">
+	<div>
+		<div class="col-md-10 col-md-offset-1">
+			<form role="form" name="loginForm" class="modal-form">
+				<fieldset>
+					<div class="form-group">
+						<label class="control-label" style="width: 80px">所属用户:</label>
+						<div class="controls" style="margin-left: 95px">
+							<input class="form-control" type="text" ng-value="getUserName(modifyService.publishUserId, allUsers)" disabled>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label" style="width: 80px">服务标签:</label>
+						<div class="controls" style="margin-left: 95px">
+							<input class="form-control" type="text" ng-value="modifyService.serviceLabelName" disabled>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label" style="width: 80px">经度:</label>
+						<div class="controls" style="margin-left: 95px">
+							<input class="form-control" ng-model="modifyService.longitude" type="number">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label" style="width: 80px">纬度:</label>
+						<div class="controls" style="margin-left: 95px">
+							<input class="form-control" ng-model="modifyService.latitude" type="number" >
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label" style="width: 80px">广告语:</label>
+						<div class="controls" style="margin-left: 95px">
+							<input class="form-control" ng-model="modifyService.slogan" type="text" >
+						</div>
+					</div>
+					<div class="form-group" style="float: right">
+						<button class="btn btn-success btn-outline ng-binding" ng-click="modifyServiceFunc(modifyService)">修改&nbsp<span class="glyphicon glyphicon-plus"></span></button>
+						<button class="btn btn-primary btn-outline ng-binding" ng-click="dialogShown.modifyService = false">取消&nbsp<span class="glyphicon glyphicon-trash"></span></button>
+					</div>
+				</fieldset>
+			</form>
 		</div>
 	</div>
 </modal-dialog>
