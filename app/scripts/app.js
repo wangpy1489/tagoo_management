@@ -14,7 +14,7 @@ angular
         'ui.bootstrap',
         'angular-loading-bar'
     ])
-    .constant("BaseUrl", "http://202.120.40.177:")
+    .constant("BaseUrl", "http://202.120.40.108:")
 	.constant("UserPort", "22201")
 	.constant("Port", "22202")
 	.constant("partnerPort", "22333")
