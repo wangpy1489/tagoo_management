@@ -156,7 +156,7 @@ angular.module('sbAdminApp')
 				})
 		}
 		getAllLabels();
-		$scope.newBasicLabel = {}
+		$scope.newBasicLabel = {};
 		$scope.addBasicLabel = function(newBasicLabel){
 			if(newBasicLabel == "" || newBasicLabel == undefined){
 				alert("服务标签不能为空");
@@ -164,12 +164,12 @@ angular.module('sbAdminApp')
 			}
 			ManageServiceFactory.addBasicLabel(newBasicLabel)
 				.success(function(data){
-					$scope.dialogShown = false;
+					$scope.dialogShown.flag = false;
 					getAllLabels();
 					alert("新建服务标签成功");
 				})
 				.error(function(err){
-					$scope.dialogShown = false;
+					$scope.dialogShown.flag = false;
 					alert("新建服务标签失败");
 				})
 		}
@@ -212,8 +212,8 @@ angular.module('sbAdminApp')
 				.success(function(data){
 					if(data.result == "OK"){
 						alert("新建子标签成功!");
+						$scope.dialogShown.flag1 = false;
 						getAllLabels();
-						$scope.dialogShown.flag1 = false
 					}
 					else{
 						alert(data.result);
