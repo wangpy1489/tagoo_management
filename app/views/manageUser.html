@@ -12,7 +12,7 @@
 			<table st-table="displayedCollection"  st-safe-src="rowCollection" class="table table-striped table-bordered">
 				<thead>
 				<tr>
-					<th colspan="7">
+					<th colspan="8">
 						<input st-search placeholder="搜索" class="input-sm form-control" type="search"/>
 					</th>
 					<th>
@@ -30,6 +30,7 @@
 					<th>注册日期</th>
 					<th>头像</th>
 					<!--<th st-sort="email">邮箱</th>-->
+					<th>工商户认证</th>
 					<th>操作</th>
 				</tr>
 
@@ -54,6 +55,15 @@
 						<button class="btn btn-primary btn-outline" ng-if="row.photo == null" disabled>
 							&nbsp未上传&nbsp
 						</button>
+					</td>
+					<td>
+						<a href="#" style="text-decoration: underline" ng-click="previewPortrait(row)">营业执照</a>
+						<a href="#" ng-mouseover="changeText(row.certification, $event)" ng-mouseleave="recoverText(row.certification, $event)"  ng-click="changeCertification(row.id, !row.certification)" style="text-decoration: underline">
+							{{{false:'未认证 ', true:'已认证'}[row.certification]}}
+						</a>
+						<!--<button class="btn btn-primary btn-outline" ng-mouseover="changeText(row.certification, $event)" ng-mouseleave="recoverText(row.certification, $event)" ng-class="{true: 'btn-success', false:'btn-warning'}[row.certification]" ng-click="changeCertification(row.id, !row.certification)">-->
+							<!--{{{false:'未认证 ', true:'已认证'}[row.certification]}}-->
+						<!--</button>-->
 					</td>
 					<td>
 						<button class="btn btn-primary btn-outline" ng-click="showModifyUserModal(row)">

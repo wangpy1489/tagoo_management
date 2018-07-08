@@ -52,6 +52,13 @@ angular.module('sbAdminApp')
 				headers: {'Content-Type': 'application/json;charset=UTF-8'}
 			});
 		};
+		factory.changeCertification = function(userid, pass){
+			return $http({
+				method: 'GET',
+				url: BaseUrl + Port + '/user/certification/check?userid=' + userid + '&pass=' + pass,
+				crossDomain: true
+			});
+		};
 		return factory;
 	})
 	.controller('ManageUserCtrl', function($scope,$position,$state,ManageUserFactory,$filter) {
@@ -193,6 +200,37 @@ angular.module('sbAdminApp')
 				})
 				.error(function(err){
 					alert("头像上传失败!");
+				})
+		}
+
+		$scope.changeText = function(certification, event){
+			if(certification == false){
+				event.target.innerHTML = "认证该用户";
+			}
+			else{
+				event.target.innerHTML = "取消认证";
+			}
+		}
+
+		$scope.recoverText = function(certification, $event){
+			if(certification == false){
+				event.target.innerHTML = "未认证";
+			}
+			else{
+				event.target.innerHTML = "已认证";
+			}
+		}
+
+		$scope.changeCertification = function(userid, pass){
+			ManageUserFactory.changeCertification(userid, pass)
+				.success(function(){
+					if(pass){
+						alert("认证成功!");
+					}
+					else{
+						alert("已取消认证");
+					}
+					getAllUsers();
 				})
 		}
 
