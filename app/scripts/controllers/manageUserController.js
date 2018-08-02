@@ -41,6 +41,7 @@ angular.module('sbAdminApp')
 				method: 'GET',
 				url: BaseUrl + UserPort + '/user/getphoto?phone=' + phone,
 				crossDomain: true
+				// croosDomain: false
 			});
 		};
 		factory.uploadPortrait = function(data){

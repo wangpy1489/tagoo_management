@@ -15,9 +15,9 @@ angular
         'angular-loading-bar'
     ])
     .constant("BaseUrl", "http://106.14.16.218:")
-	.constant("UserPort", "8101")
-	.constant("Port", "8102")
-	.constant("partnerPort", "22333")
+	.constant("UserPort", "8081")
+	.constant("Port", "8081")
+    // .config.EnableCors(new EnableCorsAttribute(Properties.Settings.Default.Cors, "", ""))
     .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
 
     $ocLazyLoadProvider.config({

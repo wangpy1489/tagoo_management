@@ -88,7 +88,7 @@ angular.module('sbAdminApp')
 		factory.addService = function(service){
 			return $http({
 				method: 'POST',
-				url: BaseUrl + UserPort + '/service/publish',
+				url: BaseUrl + UserPort + '/service/newpublish',
 				data: JSON.stringify(service),
 				crossDomain: true,
 				headers: {'Content-Type': 'application/json;charset=UTF-8'}
@@ -303,7 +303,8 @@ angular.module('sbAdminApp')
 				'slogan': data.slogan,
 				'datetime': $filter('date')(new Date(), 'yyyyMMdd'),
 				'publishUserId': data.publishUser.id,
-				'serviceLabelId':data.serviceLabel.id
+				// 'serviceLabelId':data.serviceLabel.id
+                'thirdLabelId' : data.serviceLabel.id
 
 			};
 			if (service.longitude == undefined || service.longitude == null
@@ -342,7 +343,7 @@ angular.module('sbAdminApp')
 		$scope.uploadPicture = function(image, serviceId){
 			var data = {
 				"id": serviceId,
-				"pictureImageValue": image.base64
+				"pictureImageValue": [image.base64]
 			};
 			console.log("picture",data);
 			ManageServiceFactory.uploadPicture(data)
